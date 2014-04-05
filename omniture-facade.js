@@ -2,14 +2,13 @@
 
     // Set up omniture-autobinder for either AMD or non-AMD environments
     if (typeof define === 'function' && define.amd) {
-        define(['omniture', 'underscore'], function(s, _) {
-            // Export global even in AMD case in case this script is loaded with
-            // others that may still expect a global Backbone.
-            root.Analytics = factory(root, s, _);
+
+        define(['omniture', 'underscore'], function(){
+            return factory(root, s, _);
         });
 
     } else {
-        root.Analytics = factory(root, root.s, root._);
+        root.OmnitureFacade = factory(root, root.s, root._);
     }
 
 }(this, function(root, s, _){

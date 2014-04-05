@@ -2,17 +2,16 @@
 
     // Set up omniture-autobinder for either AMD or non-AMD environments
     if (typeof define === 'function' && define.amd) {
-        define(['omniture-facade', 'underscore', 'jquery'], function(Analytics, _, $) {
-            // Export global even in AMD case in case this script is loaded with
-            // others that may still expect a global Backbone.
-            factory(root, Analytics, _, $);
+        define(['omniture-facade', 'underscore', 'jquery'], function(OmnitureFacade, _, $) {
+            //this AMD module exports omniture-facade module, so that manual interaction with Omniture is still possible even when using the autobinding functionality
+            return factory(root, OmnitureFacade, _, $);
         });
 
     } else {
-        factory(root, root.Analytics, root._, (root.jQuery  || root.$));
+        factory(root, root.OmnitureFacade, root._, (root.jQuery  || root.$));
     }
 
-}(this, function(root, Analytics, _, $){
+}(this, function(root, OmnitureFacade, _, $){
 
     /**
      * Pretty much just a collection of setters.
@@ -39,13 +38,13 @@
 
             if(type === 'd'){
                 //recordDownloadLink(data);
-                Analytics.recordDownloadLink(data);
+                OmnitureFacade.recordDownloadLink(data);
             }else if(type === 'e'){
                 //recordExitLink(data);
-                Analytics.recordExitLink(data);
+                OmnitureFacade.recordExitLink(data);
             }else if(type === 'o'){
                 //recordLocalLink(data);
-                Analytics.recordLocalLink(data);
+                OmnitureFacade.recordLocalLink(data);
             }
         },
 
@@ -54,15 +53,15 @@
         },
 
         pageView: function(){
-            Analytics.recordPageView();
+            OmnitureFacade.recordPageView();
         },
 
         setSectionName: function(text){
-            Analytics.setSectionName(text);
+            OmnitureFacade.setSectionName(text);
         },
 
         setPageName: function(text){
-            Analytics.setPageName(text);
+            OmnitureFacade.setPageName(text);
         },
         /**
          * Sets all eVar values based on the values passed in propArray
@@ -179,6 +178,9 @@
         }
     };
 
+    //this page-view represents the user landing on the initial page.
+    OmnitureFacade.recordPageView();
+
     //Binding do the ```document``` tag gives the benefit of being able to capture all clicks all the time, even if the
     //element is dynamically added after this fired. It's all thanks to the magic of event-bubbling.
     //We also want to throttle all the calls, in case the user goes on a crazy click-frenzy
@@ -186,5 +188,7 @@
     $(document).on('click', throtteledCallback);
 
     console.log('auto-binding Omniture magic in on');
+
+    return OmnitureFacade;
 
 }));
