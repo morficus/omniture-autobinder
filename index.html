@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Omniture Autobinder - example page</title>
+    <script src="bower_components/underscore/underscore.js"></script>
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <!--
+    <script src="s_code.js"></script>
+        or
+    <script src="AppMeasurement.js"></script>
+    -->
+    <script src="mock-s_code.js.js"></script>
+    <script src="omniture-facade.js"></script>
+    <script src="omniture-autobinder.js"></script>
+
+</head>
+<body>
+    <div>
+        <h2>Trigger different types of links</h2>
+        <button data-omniture="exit">Exit link</button>
+        <button data-omniture="download">Download link</button>
+        <button data-omniture="other">Other link</button>
+    </div>
+
+    <div>
+        <h2>Trigger page views</h2>
+        <button data-omniture="pageView" data-omniture-pagename="Landing Page">Record page with name "Landing page"</button>
+        <button data-omniture="pageView" data-omniture-channelname="Main">Record page with channel "Main"</button>
+    </div>
+
+    <div>
+        <h2>Trigger a link-lick while setting a prop</h2>
+        <button href="" data-omniture="download" data-omniture-prop="2" data-omniture-text="download with prop">Download link with prop2</button>
+    </div>
+
+    <div>
+        <h2>Trigger a page view while setting page name, section and evars</h2>
+        <button href="" data-omniture="pageView" data-omniture-evar="2,3" data-omniture-pagename="Landing Page 2" data-omniture-channelname="Public">Trigger</button>
+    </div>
+
+</body>
+</html>

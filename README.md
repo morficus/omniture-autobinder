@@ -42,15 +42,15 @@ Avilable data-* attributes
         <td>text that will be recorded (if not set, will grab the content</td>
     </tr>
     <tr>
-        <td>data-omnitur-evar="1,2,3"</td>
+        <td>data-omniture-evar="1,2,3"</td>
         <td>evars that need to be set (if multiple are needed, separete them with a comma)</td>
     </tr>
     <tr>
-        <td>data-omnitur-prop="1,2,3"</td>
+        <td>data-omniture-prop="1,2,3"</td>
         <td>props that need to be set (if multiple are needed, separete them with a comma)</td>
     </tr>
     <tr>
-        <td>data-omnitur-event="1,2,3"</td>
+        <td>data-omniture-event="1,2,3"</td>
         <td>events that need to be set (if multiple are needed, separete them with a comma)</td>
     </tr>
     <tr>
@@ -58,7 +58,7 @@ Avilable data-* attributes
         <td>set the page name to this value</td>
     </tr>
     <tr>
-        <td>data-omniture-sectionname="string"</td>
+        <td>data-omniture-channelname="string"</td>
         <td>set the channel value</td>
     </tr>
 
