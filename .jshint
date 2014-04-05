@@ -1,0 +1,42 @@
+//Example: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
+// See http://jshint.com/docs/ for more details
+{
+    //enforcers
+    "bitwise" : true,
+    "camelcase" : true,
+    "curly" : true,
+    "eqeqeq" : true,
+    "latedef" : true,
+    "newcap" : true,
+    "noarg" : true,
+    "noempty" : true,
+    "quotmark" : "single",
+    "undef" : true,
+    "unused" : true,
+    "strict" : false,
+    "trailing" : true,
+    "maxparams" : 5,
+    "maxdepth" : 3,
+
+    //relaxers
+    "multistr" : true,
+    "shadow" : true,
+    "sub" : true,
+
+    //environmentals
+    "jquery" : true,
+    "browser" : true,
+    "devel" : true,
+
+    //legacy
+    //"onevar" : false,
+
+    //custom globals
+    "predef" : {
+        "_" : true,
+        "define" : true,
+        "require" : true,
+        "s" : true, //Omniture name space
+        "root": true
+    }
+}
