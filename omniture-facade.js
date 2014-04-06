@@ -135,7 +135,7 @@
          */
         _cleanupVars: function(){
             var count = 50;
-            for(var i = 1; i <= count; i++){
+            for(var i = 0; i <= count; i++){
                 delete s['evar' + i];
                 delete s['prop' + i];
                 delete s['event' + i];
