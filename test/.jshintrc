@@ -1,0 +1,9 @@
+//Example: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
+// See http://jshint.com/docs/ for more details
+{
+    "predef" : {
+        "describe": true,
+        "it": true,
+        "expect": true
+    }
+}
