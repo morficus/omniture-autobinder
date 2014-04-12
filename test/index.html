@@ -7,44 +7,8 @@
 <body>
 <div id="mocha"></div>
 
-<script src="../bower_components/underscore/underscore.js"></script>
-
-<!-- load plugin files -->
-<script src="../mock-s_code.js"></script>
-<script src="../omniture-facade.js"></script>
-<!--<script src="../omniture-autobinder.js"></script>-->
+<script data-main="require-config" src="../bower_components/requirejs/require.js"></script>
 
 
-<!-- load and config mocha + chai -->
-<script src="../node_modules/mocha/mocha.js"></script>
-<script src="../node_modules/chai/chai.js"></script>
-
-
-<!--
-<script src="../node_modules/sinon-chai/lib/sinon-chai.js"></script>
--->
-
-<script src="../node_modules/sinon/lib/sinon.js" ></script>
-<script src="../node_modules/sinon/lib/sinon/spy.js" ></script>
-<script src="../node_modules/sinon/lib/sinon/call.js" ></script>
-
-
-<script>mocha.setup('bdd')</script>
-
-<!-- load specs -->
-<script src="omniture-facade.spec.js"></script>
-<script src="omniture-autobinder.spec.js"></script>
-<script>
-    //make 'expect' global
-    window.expect = chai.expect;
-    mocha.checkLeaks();
-
-    //are we in phantom or in a regular browser?
-    if (window.mochaPhantomJS) {
-        mochaPhantomJS.run();
-    }else {
-        mocha.run();
-    }
-</script>
 </body>
 </html>

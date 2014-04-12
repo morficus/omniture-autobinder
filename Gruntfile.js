@@ -6,12 +6,27 @@
  */
 'use strict';
 
+
 module.exports = function(grunt)
 {
 
-
     grunt.initConfig({
         pkg: grunt.file.readJSON('package.json'),
+
+        karma: {
+            options: {
+                configFile: 'karma.conf.js'
+            },
+            ci: {
+                singleRun: true,
+                browsers: ['PhantomJS']
+            },
+            deploy: {
+                singleRun: true,
+                browsers: ['PhantomJS', 'Chrome', 'Firefox', 'Safari']
+                // for IE on windows support checkout https://github.com/karma-runner/karma-ie-launcher
+            }
+        },
 
         uglify: {
             options: {
@@ -25,8 +40,8 @@ module.exports = function(grunt)
             },
             default: {
                 files: {
-                    'dist/omniture-autobinder.min.js': ['omniture-autobinder.js'],
-                    'dist/omniture-facade.min.js': ['omniture-facade.js']
+                    'dist/omniture-autobinder.min.js': ['src/omniture-autobinder.js'],
+                    'dist/omniture-facade.min.js': ['src/omniture-facade.js']
                 }
             }
         },
@@ -40,10 +55,10 @@ module.exports = function(grunt)
     });
 
 
-    grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-uglify');
-    //grunt.loadNpmTasks('grunt-mocha-chai-sinon');
+    //load all installed tasks
+    require('load-grunt-tasks')(grunt);
 
-    grunt.registerTask('release', ['clean', 'uglify']);
+    grunt.registerTask('release', ['test:deploy', 'clean', 'uglify']);
+    grunt.registerTask('test', ['karma:ci']);
 
 };
