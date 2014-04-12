@@ -3,7 +3,7 @@
     // Set up omniture-autobinder for either AMD or non-AMD environments
     if (typeof define === 'function' && define.amd) {
 
-        define(['omniture', 'underscore'], function(){
+        define(['../mock-s_code', 'underscore'], function(){
             return factory(root, s, _);
         });
 
