@@ -13,4 +13,4 @@ window.s = {
     _printOutput: function(){
         console.log('this is what the "s" object looks like: ', s);
     }
-}
+};
