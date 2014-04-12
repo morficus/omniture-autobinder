@@ -3,19 +3,23 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>Omniture Autobinder - example page</title>
-    <script src="bower_components/underscore/underscore.js"></script>
-    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../bower_components/underscore/underscore.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.min.js"></script>
     <!--
     <script src="s_code.js"></script>
         or
     <script src="AppMeasurement.js"></script>
     -->
-    <script src="mock-s_code.js.js"></script>
-    <script src="src/omniture-facade.js"></script>
-    <script src="src/omniture-autobinder.js"></script>
+    <script src="mock-s_code.js"></script>
+    <script src="../src/omniture-facade.js"></script>
+    <script src="../src/omniture-autobinder.js"></script>
 
 </head>
 <body>
+    <p>
+        Open your browser console to see some informative messages about what's going on.
+    </p>
+
     <div>
         <h2>Trigger different types of links</h2>
         <button data-omniture="exit">Exit link</button>

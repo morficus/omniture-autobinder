@@ -11,7 +11,6 @@ window.s = {
         this._printOutput(arguments);
     },
     _printOutput: function(){
-        console.log('with these arguments: ');
         console.log('this is what the "s" object looks like: ', s);
     }
 }
