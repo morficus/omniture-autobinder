@@ -1,6 +1,7 @@
 Omniture Autobinder
 ====
 [![Build Status](https://travis-ci.org/morficus/omniture-autobinder.svg?branch=master)](https://travis-ci.org/morficus/omniture-autobinder)
+[![githalytics.com alpha](https://cruel-carlota.pagodabox.com/e210c3c11e25a2e6857d939932a6065f "githalytics.com")](http://githalytics.com/morficus/omniture-autobinder)
 
 An automatic and mostly unobtrusive way to bind the proper UI element to the various artifacts necessary for collection data with Adobe's Omniture analytics tool.
 
