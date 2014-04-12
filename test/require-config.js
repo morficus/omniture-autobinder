@@ -86,7 +86,7 @@ require.config({
         'sinon.call': 'bower_components/sinon/lib/sinon/call',
         'sinon-chai': 'bower_components/sinon-chai/lib/sinon-chai',
         'chai': 'bower_components/chai/chai',
-        'omniture':  'test/mock_s-code',
+        'omniture':  'test/mock-s_code',
         'omniture-facade': 'src/omniture-facade',
         'omniture-autobinder': 'src/omniture-autobinder'
     },

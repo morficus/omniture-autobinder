@@ -36,7 +36,7 @@ module.exports = function(config) {
          * See test/require-config.karma.js for more information
          */
         files: [
-            {pattern: 'examples/mock-s_code.js', included: false},
+            {pattern: 'test/mock-s_code.js', included: false},
             {pattern: 'src/*.js', included: false},
             {pattern: 'bower_components/**/*.js', included: false},
             {pattern: 'test/*.spec.js', included: false},
