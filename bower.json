@@ -1,12 +1,12 @@
 {
   "name": "omniture-autobinder",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/morficus/omniture-autobinder",
   "authors": [
     "Maurice Williams <morficus@gmail.com>"
   ],
   "description": "An automatic and mostly unobtrusive way to bind the proper UI element to the various artifacts necessary for collection data with Adobe's Omniture analytics tool.",
-  "main": "omniture-autobinder.js",
+  "main": "src/omniture-autobinder.js",
   "keywords": [
     "omniture",
     "analytics",
@@ -16,6 +16,8 @@
   "license": "MIT",
   "ignore": [
     "**/.*",
+    "karma.conf.js",
+    "Gruntfile.js",
     "node_modules",
     "bower_components",
     "test",
