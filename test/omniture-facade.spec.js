@@ -25,6 +25,7 @@ define(['omniture-facade'], function(OmnitureFacade){
             it('should set the "setctionName" attribute', function(){
                 OmnitureFacade.setSectionName('Main Section');
                 expect(OmnitureFacade.sectionName).to.be.equal('Main Section');
+                expect(s.channel).to.be.equal('Main Section');
             });
 
         });
@@ -33,6 +34,7 @@ define(['omniture-facade'], function(OmnitureFacade){
             it('should set the "pageName" attribute', function(){
                 OmnitureFacade.setPageName('Landing Page');
                 expect(OmnitureFacade.pageName).to.be.equal('Landing Page');
+                expect(s.pageName).to.be.equal('Landing Page');
             });
         });
 
@@ -65,10 +67,10 @@ define(['omniture-facade'], function(OmnitureFacade){
             });
 
             it('should call the private clean-up method once', function(){
-                sinon.spy(OmnitureFacade, '_cleanupVars');
+                sinon.spy(OmnitureFacade, '_cleanup');
                 OmnitureFacade.recordPageView();
-                expect(OmnitureFacade._cleanupVars.callCount).to.be.equal(1);
-                OmnitureFacade._cleanupVars.restore();
+                expect(OmnitureFacade._cleanup.callCount).to.be.equal(1);
+                OmnitureFacade._cleanup.restore();
 
             });
         });
@@ -79,9 +81,9 @@ define(['omniture-facade'], function(OmnitureFacade){
                 expect(s.visitorID).to.be.equal('123abc');
             });
 
-            it('should strip any dashes in the given string', function(){
-                OmnitureFacade.setGuid('1-2-3-a-b-c');
-                expect(s.visitorID).to.be.equal('123abc');
+            it('should strip any non-alphanumeric character in the given string', function(){
+                OmnitureFacade.setGuid('1-2.3-a.b c+4=5//6');
+                expect(s.visitorID).to.be.equal('123abc456');
             });
         });
 
@@ -141,12 +143,26 @@ define(['omniture-facade'], function(OmnitureFacade){
 
         describe('#_recordLink',function(){
 
-            it('should call "s.tl" only once', function(){
+            it('should call "s.tl" only once', function(done){
                 OmnitureFacade._recordLink({'linkType': 'o', 'linkName': 'Name'});
-                expect(s.tl.callCount).to.be.equal(1);
+
+                setTimeout(function () {
+                    expect(s.tl.callCount).to.be.equal(1);
+                    done();
+                }, 500);
             });
 
-            it('will not call "s.tl" if the minimum requiered attributes are not set', function(){
+            it('should cleanup after its self', function(done){
+                OmnitureFacade._recordLink({'linkType': 'o', 'linkName': 'Name'});
+                sinon.spy(OmnitureFacade, '_cleanup');
+
+                setTimeout(function () {
+                    expect(OmnitureFacade._cleanup.callCount).to.be.equal(1);
+                    done();
+                }, 500);
+            });
+
+            it('will not call "s.tl" if the minimum required attributes are not set', function(){
                 OmnitureFacade._recordLink({});
                 expect(s.tl.callCount).to.be.equal(0);
             });
@@ -168,34 +184,58 @@ define(['omniture-facade'], function(OmnitureFacade){
 
         });
 
-        describe('#_cleanupVars', function(){
+        describe('#_cleanup', function(){
             beforeEach(function(){
+                var trackingValues = [],
+                    trackEvents = [];
+
                 for(var i = 0; i <= 50; i++){
-                    s['evar' + i] = 'value-' + i;
+                    s['eVar' + i] = 'value-' + i;
                     s['prop' + i] = 'value-' + i;
                     s['event' + i] = 'value-' + i;
+
+                    trackingValues.push('eVar' + i);
+                    trackingValues.push('prop' + i);
+                    trackingValues.push('event' + i);
+
+                    trackEvents.push('event' + i);
                 }
+
+                s.events = trackEvents.join(',');
+                s.linkTrackEvents = trackEvents.join(',');
+                s.linkTrackVars = trackingValues.join(',');
             });
 
             it('should delete ALL evars, up to 50', function(){
-                OmnitureFacade._cleanupVars();
+                OmnitureFacade._cleanup();
                 for(var i = 0; i <= 50; i++) {
-                    expect(s['evar' + i]).to.be.undefined;
+                    expect(s['eVar' + i]).to.be.undefined;
                 }
             });
 
             it('should delete ALL props, up to 50', function(){
-                OmnitureFacade._cleanupVars();
+                OmnitureFacade._cleanup();
                 for(var i = 0; i <= 50; i++) {
                     expect(s['prop' + i]).to.be.undefined;
                 }
             });
 
             it('should delete ALL events, up to 50', function(){
-                OmnitureFacade._cleanupVars();
+                OmnitureFacade._cleanup();
                 for(var i = 0; i <= 50; i++) {
                     expect(s['event' + i]).to.be.undefined;
                 }
+            });
+
+            it('should clear out all event data', function(){
+                OmnitureFacade._cleanup();
+                expect(s.events).to.equal('');
+                expect(s.linkTrackEvents).to.equal('');
+            });
+
+            it('should clear out all var tracking data', function(){
+                OmnitureFacade._cleanup();
+                expect(s.linkTrackVars).to.equal('');
             });
         });
 

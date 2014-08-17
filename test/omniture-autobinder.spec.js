@@ -17,8 +17,7 @@ define(['src/omniture-autobinder'], function(OmnitureAutobinder){
         });
 
         it('should bind an click-event to the "document" element', function(){
-            //console.log(global.document.body);
-            //expect(true).to.be.true;
+            //TODO: need to write tests for this
         });
     });
 });

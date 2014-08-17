@@ -7,5 +7,7 @@ window.s = {
     },
     t: function(){
         //no-op
-    }
+    },
+
+    linkTrackVars: ''
 };

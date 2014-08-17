@@ -65,38 +65,78 @@
         },
         /**
          * Sets all eVar values based on the values passed in propArray
-         * @param evarArray An array of numbers
-         * @param evarText Text to be used when recording the eVars
+         * @param evarArray {Array} An array of numbers
+         * @param evarText {String} Text used when recording the eVars (the same text is use for values in the array)
          */
         setEvars: function(evarArray, evarText){
-            _.each(evarArray, function(evarIndex){
-                var evarName = 'evar' + evarIndex;
+            if (!_.isArray(evarArray)) {
+                evarArray = [evarArray];
+            }
+            _.each(evarArray, function(evarNumber){
+                var evarName = 'eVar' + evarNumber;
                 s[evarName] = evarText;
             });
         },
 
         /**
          * Sets all prop values based on the values passed in propArray
-         * @param propArray An array of numbers
-         * @param propText Text to be used when recording the prop values
+         * @param propArray {Array} An array of numbers
+         * @param propText {String} Text used when recording the props (the same text is use for values in the array)
          */
         setProps: function(propArray, propText){
-            _.each(propArray, function(propIndex){
-                var propName = 'prop' + propIndex;
+            if (!_.isArray(propArray)) {
+                propArray = [propArray];
+            }
+
+            var props = [];
+            props.push('events'); //we always want to track events.
+
+            _.each(propArray, function(propNumber){
+                var propName = 'prop' + propNumber;
                 s[propName] = propText;
+                props.push(propName);
             });
+
+            // make sure we don't clobber previously set tracking values
+            var currentlyTrackedVars = s.linkTrackVars.split(',');
+            if (currentlyTrackedVars.length === 0) {
+                s.linkTrackVars = props.join(',');
+            } else {
+                //combine current and new, and only preserve the unique values
+                props = _.union(currentlyTrackedVars, props);
+                s.linkTrackVars = props.join(',');
+            }
         },
 
         /**
          * Sets all event values based on the values passed in eventArray
          * @param eventArray An array of numbers
-         * @param eventText Text to be used when recording the event
+         * @param eventText Text used when recording the evets (the same text is use for values in the array)
          */
         setEvents: function(eventArray, eventText){
-            _.each(eventArray, function(eventIndex){
-                var eventName = 'event' + eventIndex;
+            if (!_.isArray(eventArray)) {
+                eventArray = [eventArray];
+            }
+
+            s.events = '';
+            var events = [];
+
+            _.each(eventArray, function(eventNumber){
+                var eventName = 'event' + eventNumber;
                 s[eventName] = eventText;
             });
+
+            // make sure we don't clobber previously set tracking values
+            var currentlyTrackedEvents = s.events.split(',');
+            if (currentlyTrackedEvents.length === 0) {
+                s.events = events.join(',');
+                s.linkTrackEvents = events.join(',');
+            } else {
+                //combine current and new, and only preserve the unique values
+                events = _.union(currentlyTrackedEvents, events);
+                s.events = events.join(',');
+                s.linkTrackEvents = events.join(',');
+            }
         }
     };
 
@@ -139,7 +179,7 @@
             return;
         }
 
-        //remove any type of extranuous white spaces
+        //remove any type of extraneous white spaces
         elementText = $.trim(elementText);
 
         //set custom variables, events and stuff...
@@ -163,18 +203,14 @@
             AnalyticsPropertySetter.setSectionName(sectionName);
         }
 
-        if(pageName){
-            AnalyticsPropertySetter.setPageName(pageName);
+        if (pageName || omniturePropertyType === 'pageView') {
+            AnalyticsPropertySetter.setPageName(pageName || elementText);
         }
 
-        try{
-            if(AnalyticsPropertySetter.hasOwnProperty(omniturePropertyType)){
-                AnalyticsPropertySetter[omniturePropertyType](elementText, $target);
-            }else{
-                console.warn('Undefined Onmniture action: ' + omniturePropertyType);
-            }
-        }catch(error){
-            throw error;
+        if(AnalyticsPropertySetter.hasOwnProperty(omniturePropertyType)){
+            AnalyticsPropertySetter[omniturePropertyType](elementText, $target);
+        }else{
+            console.warn('Undefined Omniture action: ' + omniturePropertyType);
         }
     };
 
@@ -184,10 +220,8 @@
     //Binding do the ```document``` tag gives the benefit of being able to capture all clicks all the time, even if the
     //element is dynamically added after this fired. It's all thanks to the magic of event-bubbling.
     //We also want to throttle all the calls, in case the user goes on a crazy click-frenzy
-    var throtteledCallback = _.throttle(analyticsHandlerCallback, 500, {trailing: false});
+    var throtteledCallback = _.throttle(analyticsHandlerCallback, 500);
     $(document).on('click', throtteledCallback);
-
-    console.log('auto-binding Omniture magic in on');
 
     return OmnitureFacade;
 

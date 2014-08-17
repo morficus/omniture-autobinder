@@ -14,7 +14,11 @@
 }(this, function(root, s, _){
 
     return {
+
+        /** @property */
         pageName: '',
+
+        /** @property {String} Omniture/SiteCatalyst calls this "Channel"*/
         sectionName: '',
 
         /**
@@ -23,6 +27,7 @@
          */
         setSectionName: function (section) {
             this.sectionName = section;
+            s.channel = section;
             //since we are switching sections/channels, it is assumed that the page name must not stay the same
             this.setPageName('');
         },
@@ -33,7 +38,7 @@
          */
         setPageName: function (pagename) {
             this.pageName = pagename;
-
+            s.pageName = pagename;
         },
 
         /**
@@ -43,9 +48,8 @@
          *
          */
         setGuid: function (guid) {
-            //strip hyphens from the GUID, and set it as the visitor ID
-            s.visitorID = guid.replace(/-/g, '');
-            return true;
+            // string out all non-alphanumeric characters (including white space)
+            s.visitorID = guid.replace(/\W+/g, '');
         },
 
         /**
@@ -56,14 +60,14 @@
 
             s.channel = this.sectionName;
 
-            if ( (this.sectionName !== '' && this.sectionName !== undefined) && (this.pageName !== '' && this.pageName !== undefined) ) {
-
+            // include the section name as a prefix of the page name, only if one is set
+            if ( !_.isEmpty(this.sectionName) && !_.isEmpty(this.pageName) ) {
                 s.pageName = this.sectionName + ' | ' + this.pageName;
             } else {
                 s.pageName = this.pageName;
             }
             s.t();
-            this._cleanupVars();
+            this._cleanup();
         },
 
         /**
@@ -75,7 +79,7 @@
          */
         recordLocalLink: function (linkData) {
             var defaultLinkData = {
-                'linkEelement': 'a',
+                'linkElement': 'a',
                 'linkType': 'o',
                 'linkName': '',
                 'variableOverrides': null,
@@ -130,40 +134,55 @@
         },
 
         /**
-         * Deletes all evars, props and event data that was previously set
+         * Deletes all evars, props and event data that were previously set
          * @private
          */
-        _cleanupVars: function(){
-            var count = 50;
-            for(var i = 0; i <= count; i++){
-                delete s['evar' + i];
-                delete s['prop' + i];
-                delete s['event' + i];
-            }
+        _cleanup: function () {
+            var variables = s.linkTrackVars.split(',');
+
+            _.each(variables, function (v) {
+                delete s[v];
+            });
+            s.events = '';
+            s.linkTrackEvents = '';
+            s.linkTrackVars = '';
         },
 
+        /**
+         * Actually triggers the network call to Omniture
+         * @param linkData {Object} Details about the link that was clicked
+         * @private
+         */
         _recordLink: function (linkData) {
 
             var defaultLinkData = {
-                'linkEelement': '',
+                'linkElement': '',
                 'linkType': '',
                 'linkName': '',
                 'variableOverrides': null,
                 'doneAction': '',
-                'linkurl': ''
+                'linkUrl': ''
             };
 
             linkData = _.defaults(linkData, defaultLinkData);
 
-            //ignore stuff that doesn't have all the necesary data
+            //ignore stuff that doesn't have all the necessary data
             if (linkData.linkType === '' || linkData.linkName === '') {
                 return;
             }
 
-            //only process URL's that are less than 8000 characters, else Omniture/SiteCatalyst will get pretty unhappy
-            if (linkData.linkurl.length < 8000) {
-                s.tl(linkData.linkElement, linkData.linkType, linkData.linkName);
+            //only process URL's that are less than 8000 characters, else Omniture will get pretty unhappy
+            if (linkData.linkUrl.length < 8000) {
+                var that = this;
+                //w/o the 500ms delay, "mailto:" links cause the request to get canceled.
+                setTimeout(function () {
+                    s.tl(linkData.linkElement, linkData.linkType, linkData.linkName);
+                    that._cleanup();
+                }, 500);
+
             }
+
+            return;
         }
 
     };
