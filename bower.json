@@ -5,7 +5,7 @@
   "authors": [
     "Maurice Williams <morficus@gmail.com>"
   ],
-  "description": "An automatic and mostly unobtrusive way to bind the proper UI element to the various artifacts necessary for collection data with Adobe's Omniture analytics tool.",
+  "description": "An automatic and mostly unobtrusive way to bind user interactions to UI elements and record them with Adobe's Omniture web metrics tool",
   "main": "src/omniture-autobinder.js",
   "keywords": [
     "omniture",

@@ -5,24 +5,27 @@ Omniture Autobinder
 [![Code Climate](https://codeclimate.com/github/morficus/omniture-autobinder.png)](https://codeclimate.com/github/morficus/omniture-autobinder)
 <iframe src="//benschwarz.github.io/bower-badges/embed.html?pkgname=" width="160" height="32" allowtransparency="true" frameborder="0" scrolling="0"></iframe>
 
-An automatic and mostly unobtrusive way to bind the proper UI element to the various artifacts necessary for collection data with Adobe's Omniture analytics tool.
-
-This is mostly intended for single page applications (SPA's), tho traditional full-page-reload setups can also use this just with a bit more involvement.
+An automatic and mostly unobtrusive way to bind user interactions to UI elements and record them with Adobe's Omniture web metrics tool.    
+This tool/plugin is intended for single page applications (SPA's), tho traditional full-page-reload setups can also use this just with a bit more involvement.  
 
 What does it do
 ====
-The goal is to make using Omniture drop-dead simple with minimal to your main application code but still keep things maintanable.
+The goal is to make using Omniture drop-dead simple with minimal impact to your main application code and still keep things maintainable.  
+Takes away the headache of having to write custom event-bindings to send user interactions over to Omniture/SiteCatalyst.  
+Also provides a nifty easy-to-use wrapper (```omniture-facade.js```) around the vanilla s-object which eliminates the need to remember all the obscure methods and properties of Omniture.  
 
-Takes away the headache of having to write custom event-bindings to send user interactions over to Omniture/SiteCatalyst.
-
-Also provides a nifty easy-to-use wrapper (```omniture-facade.js```) around the vanilla s-object which eliminates the need to remember all the obscure s.t() and s.tl() parameters and what not.
+In it's most basic form, this plugin defines a set of `data-*` tags so that all the Omniture-related stuff stays with in your marktup and you never have to modify anything that could contain application logic.
 
 How to use it
 ====
 
+0. Grab the dependencies
+    - If you installed this plugin using [Bower](http://bower.io), then you are all set
+    - If you manually downloaded this sucker, then you will need to grab [jQuery](http://jquery.com/) and [Underscore](http://underscorejs.org/)
 1. Add the scripts to your page
-    - If you are using a module loader like [requireJS](http://requirejs.org) (which you really should), then just add ```omniture-autobinder``` in to your path as your dependency array.
+    - If you are using a module loader like [requireJS](http://requirejs.org) (which you really should), then just add ```omniture-autobinder``` in to your your dependency array.
     - If you are **NOT** using a module loader, then sure to add the ```omniture-facade.js``` to your page before ```omniture-autobinder.js```
+        - Make sure you include jQuery and Unsercore ***BEFORE*** including ```omniture-autobinder.js```
 2. Now you're ready to start tagging. Just add the proper data-* attributes to the element you are interested in and this plugin will do the rest.
 
 Advanced usage
@@ -36,9 +39,9 @@ Or if you rather interact directly with the s-object, you can still do so as wel
 
 Pro tip
 ---
-When using a module loader with Omniture, don't forget to define it as a shim.
+When using a module loader to bring in Omniture, don't forget to define it as a shim so that the s-object is still global.  
 
-Avilable data-* attributes
+Available data-* attributes
 ====
 
 <table>
@@ -94,7 +97,7 @@ Current limitations
 ===
 
 - Only auto-binds to click-events
-- When settings multiple eVars or sProps from a single element, all eVars and sProps will receive the same text/display value
+- When settings multiple `eVar`s or `sProp`s from a single element, all `eVar`s and `sProp`s will receive the same text/display value
 - Does nothing for videos
 
 Legal stuff
