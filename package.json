@@ -1,8 +1,8 @@
 {
   "name": "omniture-autobinder",
   "private" : true,
-  "version": "1.0.0",
-  "description": "An automatic and mostly unobtrusive way to bind the proper UI element to the various artifacts necessary for collection data with Adobe's Omniture analytics tool.",
+  "version": "1.0.1",
+  "description": "An automatic and mostly unobtrusive way to bind user interactions to UI elements and record them with Adobe's Omniture web metrics tool.",
   "main": "omniture-autobinder.js",
   "scripts": {
     "test": "grunt test"
