@@ -147,22 +147,14 @@
      */
     var analyticsHandlerCallback = function(event){
         //extract all sorts of data from the target element
-        var $target = $(event.target);
+        var $target = $(event.target).closest('[data-omniture]');
 
-
-        //if the immediate target is not omniture-tagged, check if any of its parents are and re-define the target
-        if($target.attr('data-omniture') === undefined){
-            var newTarget = $target.parents('data-omniture')[0];
-            //the original normal nor any of his parents are omniture-tagged... so we can just bail
-            if(newTarget === undefined){
+        //if the clicked element nor its parents are omniture-tagged, then do nothing
+        if($target === undefined){
                 return;
-            }else{
-                //otherwise wrap it in some jQuery-goodness
-                $target = $(newTarget);
-            }
         }
 
-            //the text to be sent back to omniture
+        //the text to be sent back to omniture
         var elementText = $target.data('omniture-text') || $target.text(),
             //the type of link, acceptable values are: download, other, exit, video, pageView, sectionName, channelName
             omniturePropertyType = $target.data('omniture'),
