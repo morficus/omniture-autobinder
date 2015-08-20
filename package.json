@@ -1,7 +1,7 @@
 {
   "name": "omniture-autobinder",
   "private" : true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An automatic and mostly unobtrusive way to bind user interactions to UI elements and record them with Adobe's Omniture web metrics tool.",
   "main": "omniture-autobinder.js",
   "scripts": {
