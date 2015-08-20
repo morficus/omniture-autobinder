@@ -11,11 +11,12 @@
     <script src="../bower_components/requirejs/require.js"></script>
     <script>
         require.config({
-            'baseUrl' : '../src',
             paths: {
                 'jquery': '../bower_components/jquery/dist/jquery.min',
                 'underscore': '../bower_components/underscore/underscore',
-                'omniture': '../mock-s_code'
+                'omniture': './mock-s_code',
+                'omniture-facade': '../src/omniture-facade',
+                'omniture-autobinder': '../src/omniture-autobinder'
             },
 
             shim: {
@@ -23,7 +24,7 @@
             }
         });
 
-        require(['omniture-autobinder'], function(OmnitureFacade){
+        require(['omniture-autobinder'], function(){
             console.log('AMD-enabled page is loaded');
         });
     </script>
