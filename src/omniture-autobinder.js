@@ -207,6 +207,7 @@
     };
 
     //this page-view represents the user landing on the initial page.
+    OmnitureFacade.setPageName($('title').text());
     OmnitureFacade.recordPageView();
 
     //Binding do the ```document``` tag gives the benefit of being able to capture all clicks all the time, even if the
